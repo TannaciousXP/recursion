@@ -6,56 +6,32 @@
 // num => str num.toString();
 // obj => str obj.toString();
 var stringifyJSON = function(obj) {
-  if (obj === null) {
+  if (obj === null) { // null
   	return "null";
-  } else if (typeof obj === 'string') {
+  } else if (typeof obj === 'string') { // string
   	return `"${obj}"`;
-  } else if (typeof obj === 'boolean') {
+  } else if (typeof obj === 'boolean') { // boolean
   	return obj ? "true" : "false";
-  } else if (typeof obj === 'number') {
+  } else if (typeof obj === 'number') { // number
   	return `${obj}`
   }
-  if (Array.isArray(obj)) {
-  	if (!obj.length) {
-  		return "[]";
-  	} else if (obj.length === 1) {
-  		if (typeof obj[0] === 'number') {
-  			return `[${obj}]`
-  		} else {
-  			return `["${obj}"]`
-  		}
-  	} else if (obj.lenth > 1) {
-  		obj.forEach(function(ele){
-  			if (typeof ele === 'string') {
-  				ele = `"${ele}"`
-  				console.log(ele);
-  			} 
-  			
-  		});
-  		obj = `"[${obj}]"`
-  		return obj; 
-  	}
+  if (Array.isArray(obj)) { // array
+   	var arrString = [];
+  	obj.forEach(function(ele){
+  		arrString.push(stringifyJSON(ele));
+  	})
+  	return "[" + arrString.join(',') + "]";
   	
   }
-  if (typeof obj === 'object') {
-  	Object.keys(obj).forEach(function(key){
-  		return stringifyJSON(obj[key]);
+  if (typeof obj === 'object') { // obj
+  	var arrObj = [];
+  	Object.keys(obj).forEach(function(key) {
+  		var val = obj[key];
+  		if (typeof val !== 'undefined' && typeof val !== 'function') {
+  			arrObj.push(stringifyJSON(key) + ":" + stringifyJSON(val));
+  		}
   	});
+  	return '{' + arrObj.join(',') + '}';
   }
 };
 
-var test = [0, "hi"];
-test = stringifyJSON(test);
-console.log(test);
-// obj.forEach(function(ele){
-//   			if (typeof ele === 'string') {
-//   				ele = `"${ele}"`
-//   			}
-//   		});
-// obj = [8]`[${obj}]`
-
-// obj.forEach(function(ele) {
-//   			if (typeof ele === 'string') {
-//   				ele = `"${ele}"`
-//   			}
-//   		})
