@@ -15,6 +15,9 @@ var stringifyJSON = function(obj) {
   } else if (typeof obj === 'number') { // number
   	return `${obj}`
   }
+
+
+
   if (Array.isArray(obj)) { // array
    // 	var arrString = [];
   	// obj.forEach(function(ele){
@@ -26,8 +29,7 @@ var stringifyJSON = function(obj) {
   	}, []);
   	return "[" + arrString.join(',') + "]";
   	
-  }
-  if (typeof obj === 'object') { // obj
+  } else if (typeof obj === 'object') { // obj
   	// var arrObj = [];
   	// Object.keys(obj).forEach(function(key) {
   	// 	var val = obj[key];
