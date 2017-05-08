@@ -16,21 +16,32 @@ var stringifyJSON = function(obj) {
   	return `${obj}`
   }
   if (Array.isArray(obj)) { // array
-   	var arrString = [];
-  	obj.forEach(function(ele){
-  		arrString.push(stringifyJSON(ele));
-  	})
+   // 	var arrString = [];
+  	// obj.forEach(function(ele){
+  	// 	arrString.push(stringifyJSON(ele));
+  	// })
+  	var arrString = obj.reduce(function(arr, ele) {
+  		arr.push(stringifyJSON(ele));
+  		return arr;
+  	}, []);
   	return "[" + arrString.join(',') + "]";
   	
   }
   if (typeof obj === 'object') { // obj
-  	var arrObj = [];
-  	Object.keys(obj).forEach(function(key) {
+  	// var arrObj = [];
+  	// Object.keys(obj).forEach(function(key) {
+  	// 	var val = obj[key];
+  	// 	if (typeof val !== 'undefined' && typeof val !== 'function') {
+  	// 		arrObj.push(stringifyJSON(key) + ":" + stringifyJSON(val));
+  	// 	}
+  	// });
+  	var arrObj = Object.keys(obj).reduce(function(arr, key) {
   		var val = obj[key];
   		if (typeof val !== 'undefined' && typeof val !== 'function') {
-  			arrObj.push(stringifyJSON(key) + ":" + stringifyJSON(val));
+  			arr.push(stringifyJSON(key) + ":" + stringifyJSON(val));
   		}
-  	});
+  		return arr;
+  	}, []);
   	return '{' + arrObj.join(',') + '}';
   }
 };
