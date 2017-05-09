@@ -43,7 +43,7 @@ var getElementsByClassName = function(className) {
     if (_(node.classList).contains(className)) {
       nodeList.push(node);
     }
-    (node.childNodes).forEach(function(child) {
+    _(node.childNodes).forEach(function(child) {
       test(child);
     });
   }
