@@ -36,17 +36,26 @@ describe('getElementsByClassName', function() {
 
 });
 */
-var getElementsByClassName = function(className) {
+var getElementsByClassName = function(className, node) {
   // your code here
   var nodeList = [];
-  function test(node) {
-    if (_(node.classList).contains(className)) {
-      nodeList.push(node);
-    }
-    _(node.childNodes).forEach(function(child) {
-      test(child);
-    });
+  node = node || document.body;
+  var nameClass = node.className.split(' ');
+  if (nameClass.indexOf(className) !== -1) {
+    nodeList.push(node);
   }
-  test(document.body);
+  // function search(node) {
+  //   if (_(node.classList).contains(className)) {
+  //     nodeList.push(node);
+  //   }
+  //   _(node.childNodes).forEach(function(child) {
+  //     search(child);
+  //   });
+  // }
+  // search(document.body);
+  for (var i = 0; i < node.children.length; i++) {
+    var childResults = getElementsByClassName(className, node.children[i]);
+    nodeList = nodeList.concat(childResults);
+  }
   return nodeList;
 };
